@@ -32,7 +32,7 @@ Este aplicativo web, desenvolvido em Flask, permite comparar dois snapshots dos 
 
    ```bash
    git clone git@github.com:omagodev/Instagram-Followers-Comparison-App.git
-   cd nome-do-repositorio
+   cd Instagram-Followers-Comparison-App
    ```
 
 2. **Crie e Ative um Ambiente Virtual:**
