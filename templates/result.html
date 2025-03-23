@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Resultado da Comparação</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        padding-top: 40px;
+      }
+      .container {
+        max-width: 800px;
+      }
+      table {
+        margin-top: 20px;
+      }
+      .badge-unfollow {
+        background-color: #17a2b8;
+        color: white;
+        font-size: 1rem;
+      }
+      .badge-excluido {
+        background-color: #dc3545;
+        color: white;
+        font-size: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Resultado da Comparação</h1>
+      <div class="mt-3">
+        <p>
+          <strong>Lista antiga:</strong> {{ file_old }} (Total de usuários: {{
+          total_old }})
+        </p>
+        <p>
+          <strong>Lista nova:</strong> {{ file_new }} (Total de usuários: {{
+          total_new }})
+        </p>
+      </div>
+
+      <h2 class="mt-4">
+        Usuários que deixaram de seguir <small>({{ unfollow_count }})</small>
+      </h2>
+      {% if unfollowed_details %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Usuário</th>
+            <th>Data</th>
+            <th>Perfil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for registro in unfollowed_details %}
+          <tr>
+            <td>
+              {% if registro.status == 'excluído' %}
+              <span class="badge badge-excluido">Excluído</span>
+              {% elif registro.status == 'unfollow' %}
+              <span class="badge badge-unfollow">Unfollow</span>
+              {% endif %} @{{ registro.user }}
+            </td>
+            <td>{{ registro.date }}</td>
+            <td>
+              <a href="{{ registro.href }}" target="_blank"
+                >{{ registro.href }}</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>Nenhum usuário deixou de seguir.</p>
+      {% endif %}
+
+      <h2 class="mt-4">
+        Novos Seguidores <small>({{ new_follow_count }})</small>
+      </h2>
+      {% if new_followed_details %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Usuário</th>
+            <th>Data</th>
+            <th>Perfil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for registro in new_followed_details %}
+          <tr>
+            <td>@{{ registro.user }}</td>
+            <td>{{ registro.date }}</td>
+            <td>
+              <a href="{{ registro.href }}" target="_blank"
+                >{{ registro.href }}</a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>Nenhum novo seguidor.</p>
+      {% endif %}
+
+      <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Voltar</a>
+    </div>
+  </body>
+</html>
